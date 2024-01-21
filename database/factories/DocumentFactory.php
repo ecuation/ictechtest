@@ -17,7 +17,7 @@ class DocumentFactory extends Factory
      */
     public function definition(): array
     {
-        $file = fake()->file('/tmp', storage_path('app/public/documents'));
+        $file = fake()->file(public_path('samples'), storage_path('app/public/documents'));
         $fileName = basename($file);
         $createdAt = fake()->dateTimeInInterval('-1 years', '+365 days');
         $approvedAt = (new Carbon($createdAt))->addDays(5);
