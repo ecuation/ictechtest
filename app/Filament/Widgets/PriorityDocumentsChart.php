@@ -2,6 +2,7 @@
 
 namespace App\Filament\Widgets;
 
+use App\Services\DocumentService;
 use Filament\Widgets\ChartWidget;
 
 class PriorityDocumentsChart extends ChartWidget
@@ -10,14 +11,20 @@ class PriorityDocumentsChart extends ChartWidget
 
     protected function getData(): array
     {
+        $documents = (new DocumentService())->getDocumentsGroupedByPriority();
+
+        $high = $documents->filter(fn($document) => $document->priority === 'high')->first();
+        $medium = $documents->filter(fn($document) => $document->priority === 'medium')->first();
+        $low = $documents->filter(fn($document) => $document->priority === 'low')->first();
+
         return [
             'datasets' => [
                 [
                     'label' => 'Documents by priority',
-                    'data' => [3, 10, 5],
+                    'data' => [$high->total, $medium->total, $low->total],
                 ],
             ],
-            'labels' => ['high', 'medium', 'low'],
+            'labels' => [$high->priority, $medium->priority, $low->priority],
         ];
     }
 
