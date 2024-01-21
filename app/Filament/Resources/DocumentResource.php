@@ -3,7 +3,6 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\DocumentResource\Pages;
-use App\Filament\Resources\DocumentResource\RelationManagers;
 use App\Models\Document;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -11,7 +10,9 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Tables\Filters\Filter;
+use Filament\Tables\Filters\SelectFilter;
+
 
 class DocumentResource extends Resource
 {
@@ -74,7 +75,28 @@ class DocumentResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+                SelectFilter::make('priority')
+                    ->options([
+                        'high' => 'high',
+                        'medium' => 'medium',
+                        'low' => 'low'
+                    ]),
+                Filter::make('approved_at')
+                    ->form([
+                        Forms\Components\DatePicker::make('approved_from'),
+                        Forms\Components\DatePicker::make('approved_until'),
+                    ])
+                    ->query(function (Builder $query, array $data): Builder {
+                        return $query
+                            ->when(
+                                $data['approved_from'],
+                                fn (Builder $query, $date): Builder => $query->whereDate('approved_at', '>=', $date),
+                            )
+                            ->when(
+                                $data['approved_until'],
+                                fn (Builder $query, $date): Builder => $query->whereDate('approved_at', '<=', $date),
+                            );
+                    })
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
