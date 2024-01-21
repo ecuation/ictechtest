@@ -30,9 +30,9 @@ class DocumentResource extends Resource
                     ->required()
                     ->label('priority')
                     ->options([
-                        'high',
-                        'medium',
-                        'low'
+                        'high' => 'high',
+                        'medium' => 'medium',
+                        'low' => 'low'
                     ]),
                 Forms\Components\DatePicker::make('approved_at'),
                 Forms\Components\FileUpload::make('file')
@@ -56,10 +56,12 @@ class DocumentResource extends Resource
                     ->sortable(),
                 Tables\Columns\SelectColumn::make('priority')
                     ->options([
-                        'high',
-                        'medium',
-                        'low'
-                    ]),
+                        'high' => 'high',
+                        'medium' => 'medium',
+                        'low' => 'low'
+                    ])
+                    ->disabled()
+                    ->selectablePlaceholder(false),
                 Tables\Columns\TextColumn::make('file')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')

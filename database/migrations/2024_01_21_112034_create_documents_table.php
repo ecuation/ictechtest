@@ -14,20 +14,11 @@ return new class extends Migration
         Schema::create('documents', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->tinyText('priority');
+            $table->string('priority', 20);
             $table->date('approved_at')->nullable();
             $table->string('file');
             $table->timestamps();
         });
-
-        /*
-         *
-         * ○ Nombre del documento
-○ Descripción
-○ Relevancia (Alta, media y baja)
-○ Fecha de aprobación del documento
-○ Fecha de subida a la aplicación
-○ Documento PDF*/
     }
 
     /**
