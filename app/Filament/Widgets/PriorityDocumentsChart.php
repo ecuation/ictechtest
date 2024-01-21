@@ -7,7 +7,7 @@ use Filament\Widgets\ChartWidget;
 
 class PriorityDocumentsChart extends ChartWidget
 {
-    protected static ?string $heading = 'Documents by priority';
+    protected static ?string $heading = 'Documents grouped by priority';
 
     protected function getData(): array
     {

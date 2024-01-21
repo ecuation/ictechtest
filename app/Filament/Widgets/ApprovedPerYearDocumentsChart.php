@@ -6,7 +6,7 @@ use App\Services\DocumentService;
 use Filament\Widgets\ChartWidget;
 class ApprovedPerYearDocumentsChart extends ChartWidget
 {
-    protected static ?string $heading = 'Chart';
+    protected static ?string $heading = 'Documents approved past year';
 
     protected function getData(): array
     {
